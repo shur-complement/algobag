@@ -37,8 +37,7 @@ class Trie:
             path, node = stack.pop()
             if '*' in node: out.append(path)
             for e in sorted(node.keys(), reverse=True):
-                if e != '*':
-                    stack.append((path+e, node[e]))
+                if e != '*': stack.append((path+e, node[e]))
         return out
 
 if __name__ == "__main__":
