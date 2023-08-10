@@ -3,19 +3,20 @@
 # Time O(N log N)
 # Space O(1)
 
-def heap_sort(xs, count):
-    if len(xs) < 2: return
-    _heapify(xs, count)
-    end = count - 1
+def heap_sort(xs):
+    N = len(xs)
+    if N < 2: return
+    _heapify(xs, N)
+    end = N - 1
     while end > 0:
         xs[end], xs[0] = xs[0], xs[end]
         end -= 1
         _sift_down(xs, 0, end)
 
-def _heapify(xs, count):
-    start = _parent(count - 1)
+def _heapify(xs, N):
+    start = _parent(N - 1)
     while start >= 0:
-        _sift_down(xs, start, count - 1)
+        _sift_down(xs, start, N - 1)
         start -= 1
 
 def _sift_down(xs, start, end):
@@ -42,5 +43,5 @@ def _left_child(i):
 if __name__ == "__main__":
     xs = [1,2,3,4,5,1,2,3,4,5,1,2,3,4,5]
     print(xs)
-    heap_sort(xs, len(xs))
+    heap_sort(xs)
     print(xs)
