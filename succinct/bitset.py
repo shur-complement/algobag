@@ -1,3 +1,5 @@
+# https://en.wikipedia.org/wiki/Bit_array
+
 from math import ceil
 
 BITS = 32
