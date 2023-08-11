@@ -23,10 +23,10 @@ def _merge(ys, start, mid, end, xs):
     for k in range(start, end):
         if i < mid and (j >= end or xs[i] <= xs[j]):
             ys[k] = xs[i]
-            i = i + 1
+            i += 1
         else:
             ys[k] = xs[j]
-            j = j + 1
+            j += 1
 
 if __name__ == "__main__":
     xs = [1,2,3,4,5,1,2,3,4,5]

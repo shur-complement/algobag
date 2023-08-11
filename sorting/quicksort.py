@@ -13,7 +13,7 @@ def partition(xs, lo, hi):
     i = lo - 1
     for j in range(lo, hi):
         if xs[j] <= pivot:
-            i = i + 1
+            i += 1
             xs[i], xs[j] = xs[j], xs[i]
     xs[i + 1], xs[hi] = xs[hi], xs[i + 1]
     return i + 1
