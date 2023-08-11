@@ -24,21 +24,22 @@ def matmul_into(A,B,C):
             for k in range(A.cols):
                 C[i,j] += A[i,k] * B[k,j]
 
-A = DenseMatrix(
-    3,4,
-    [[1, 2, 3, 4],
-     [5, 6, 7, 8],
-     [9, 10, 11, 12]]
-)
+if __name__ == "__main__":
+    A = DenseMatrix(
+        3,4,
+        [[1, 2, 3, 4],
+         [5, 6, 7, 8],
+         [9, 10, 11, 12]]
+    )
 
-B = DenseMatrix(
-    4,3,
-    [[1,2,3],
-     [4,5,6],
-     [7,8,9],
-     [10,11,12]]
-)
+    B = DenseMatrix(
+        4,3,
+        [[1,2,3],
+         [4,5,6],
+         [7,8,9],
+         [10,11,12]]
+    )
 
-C = DenseMatrix(3,3, [[0]*3 for _ in range(3)])
-matmul_into(A,B,C)
-print(C)
+    C = DenseMatrix(3,3, [[0]*3 for _ in range(3)])
+    matmul_into(A,B,C)
+    print(C)
