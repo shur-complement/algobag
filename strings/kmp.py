@@ -6,7 +6,7 @@
 
 def kmp_search(haystack, needle):
     if len(haystack) == 0 or len(needle) == 0: return []
-    T = build_table(needle)
+    fail = build_table(needle)
     j, k = 0, 0
     matches = []
     while j < len(haystack):
@@ -15,30 +15,29 @@ def kmp_search(haystack, needle):
             k += 1
             if k == len(needle):
                 matches.append(j - k)
-                k = T[k]
+                k = fail[k]
         else:
-            k = T[k]
+            k = fail[k]
             if k < 0:
                 j += 1
                 k += 1
     return matches
 
 def build_table(needle):
-    T = [0]*(len(needle)+1)
-    T[0] = -1
+    fail = [0]*(len(needle)+1)
+    fail[0] = -1
     position, candidate = 1, 0
     while position < len(needle):
         if needle[position] == needle[candidate]:
-            T[position] = T[candidate]
+            fail[position] = fail[candidate]
         else:
-            T[position] = candidate
+            fail[position] = candidate
             while candidate >= 0 and needle[position] != needle[candidate]:
-                candidate = T[candidate]
+                candidate = fail[candidate]
         position += 1
         candidate += 1
-    T[position] = candidate
-    return T
+    fail[position] = candidate
+    return fail
 
 if __name__ == "__main__":
-    print(kmp_search("foobarbazbar", "bar"))
-    print(kmp_search("", "foo"))
+    print(kmp_search("ABC ABCDAB ABCDABCDABDE", "ABCDABD"))
