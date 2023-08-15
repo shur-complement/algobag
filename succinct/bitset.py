@@ -7,7 +7,7 @@ BITS = 32
 class BitSet:
 
     def __init__(self, nbits):
-        self.data = [0] * int(ceil(nbits / 32))
+        self.data = [0] * int(ceil(nbits / BITS))
 
     def __len__(self):
         return len(self.data) * BITS
