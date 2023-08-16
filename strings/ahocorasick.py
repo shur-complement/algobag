@@ -17,10 +17,6 @@ class AhoCorasick:
         self.go = [[FAIL] * ALPHABET_SIZE for _ in range(STATE_SIZE)]
         self.fail = [FAIL] * STATE_SIZE 
         self.out = [EMPTY] * STATE_SIZE 
-
-        for i in range(len(words)):
-            words[i] = words[i].lower()
-
         self.words = words
 
         self._build_goto()
@@ -70,7 +66,6 @@ class AhoCorasick:
 
     def matches(self, text):
         # Algorithm 1: Pattern matching machine
-        text = text.lower()
         result = defaultdict(list)
         state = 0
         for i in range(len(text)):
