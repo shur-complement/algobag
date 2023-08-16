@@ -12,10 +12,10 @@ FAIL = -1
 EMPTY = 0
 class AhoCorasick:
     def __init__(self, words):
-        NUM_STATES = sum(len(word) for word in words)
-        self.out = [EMPTY] * (NUM_STATES + 1)
-        self.fail = [FAIL] * (NUM_STATES + 1)
-        self.go = [[FAIL] * ALPHABET_SIZE for _ in range(NUM_STATES + 1)]
+        NUM_STATES = 1 + sum(len(word) for word in words)
+        self.go = [[FAIL] * ALPHABET_SIZE for _ in range(NUM_STATES)]
+        self.fail = [FAIL] * NUM_STATES
+        self.out = [EMPTY] * NUM_STATES
 
         for i in range(len(words)):
             words[i] = words[i].lower()
