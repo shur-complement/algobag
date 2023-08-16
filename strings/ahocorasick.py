@@ -29,15 +29,15 @@ class AhoCorasick:
     def _build_goto(self):
         # Algorithm 2: Construction of the goto function
         k = len(self.words)
-        states = 1
+        num_states = 1
         for i in range(k):
             word = self.words[i]
             state = 0
             for char in word:
                 c = ord(char) - ord('a')
                 if self.go[state][c] == FAIL:
-                    self.go[state][c] = states
-                    states += 1
+                    self.go[state][c] = num_states
+                    num_states += 1
                 state = self.go[state][c]
             self.out[state] |= (1 << i) # add word i to out set
 
