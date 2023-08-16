@@ -7,7 +7,8 @@
 
 from collections import defaultdict, deque
 
-ALPHABET_SIZE = 26
+# byte oriented matching
+ALPHABET_SIZE = 256
 FAIL = -1
 EMPTY = 0
 class AhoCorasick:
@@ -34,7 +35,7 @@ class AhoCorasick:
             word = self.words[i]
             state = 0
             for char in word:
-                c = ord(char) - ord('a')
+                c = ord(char)
                 if self.go[state][c] == FAIL:
                     self.go[state][c] = num_states
                     num_states += 1
@@ -73,7 +74,7 @@ class AhoCorasick:
         result = defaultdict(list)
         state = 0
         for i in range(len(text)):
-            c = ord(text[i]) - ord('a')
+            c = ord(text[i])
             while self.go[state][c] == FAIL:
                 state = self.fail[state]
             state = self.go[state][c]
@@ -84,8 +85,8 @@ class AhoCorasick:
         return result
 
 if __name__ == "__main__":
-    words = ["he", "she", "hers", "his"]
-    text = "ahishers"
+    words = ["he", "she", "hers", "his", "yoyo", "zirp", "zoot"]
+    text = "ahishers zipzipzirp"
 
     aho_chorasick = AhoCorasick(words)
     matches = aho_chorasick.matches(text)
