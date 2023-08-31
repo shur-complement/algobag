@@ -3,17 +3,17 @@
 # expected O(n^(1/4))
 
 # (x^2+1) mod n
-def poly(n):
+def poly(n: int):
     return lambda x: (x*x+1) % n
 
 # greatest common divisor (Euclid's algorithm)
-def gcd(a, b):
+def gcd(a: int, b: int) -> int:
     while b != 0:
         a, b = b, a % b
     return a
 
 # Pollard's rho algorithm
-def pollardrho(n): 
+def pollardrho(n: int) -> int: 
     g = poly(n)
     x = 2
     y = 2
