@@ -28,6 +28,6 @@ def pollardrho(n: int) -> int:
         return d
 
 if __name__ == "__main__":
-    for n in [20,500,1071,10_323]:
+    for n in [20,500,1071,10_323, (1238926361552897 * 93461639715357977769163558199606896584051237541638188580280321)]:
         factor = pollardrho(n)
         print(n, factor, (n % factor == 0))
