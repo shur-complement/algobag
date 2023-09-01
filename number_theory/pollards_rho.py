@@ -1,6 +1,6 @@
 # https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm
 # Pollard's rho to factorize a number n = pq
-# expected O(n^(1/4))
+# expected O(n^(1/4) * log n)
 
 # (x^2+1) mod n
 def poly(n: int):
