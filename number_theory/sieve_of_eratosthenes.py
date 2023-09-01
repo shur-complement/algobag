@@ -1,6 +1,6 @@
 # https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 # algorithm for finding all prime numbers up to a given limit
-# Time: O(n log log n)
+# Time: O(N log log N)
 # Space: O(N)
 
 from math import sqrt, ceil
