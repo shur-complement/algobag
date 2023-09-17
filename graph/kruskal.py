@@ -4,30 +4,40 @@
 # Space: O(E + V)
 # Find the minimum spanning tree in a graph
 
-class DisjointSet:
+# Union-Find using Martin Rem's algorithm 
+class RemDisjointSet:
     def __init__(self, N):
-        # create n singletons
         self.parent = list(range(0, N))
-        self.size = [1] * N
-
-    def find(self, u):
-        # find with path splitting
-        p = self.parent
-        while u != p[u]:
-            z = p[u]
-            p[u] = p[p[u]]
-            u = z
-        return u
 
     def union(self, u, v):
-        x = self.find(u)
-        y = self.find(v)
-        if x == y:
-            return
-        if self.size[x] < self.size[y]:
-            x,y = y,x
-        self.parent[y] = x
-        self.size[x] = self.size[x] + self.size[y]
+        x = self.parent[u]
+        y = self.parent[v]
+        while True:
+            if x == y:
+                return false
+            elif x < y:
+                self.parent[v] = x
+                if v == y:
+                    return True
+                v = y
+                y = self.parent[v]
+            else:
+                self.parent[u] = y
+                if u == x:
+                    return True
+                u = x
+                x = self.parent[u]
+
+    def find(self, u):
+        while True:
+            v = self.parent[u]
+            if v == u:
+                return u
+            w = self.parent[v]
+            if w == v:
+                return v
+            self.parent[u] = w
+            u = w
 
 class EdgeList:
     def __init__(self):
@@ -51,7 +61,7 @@ def kruskal(g: EdgeList) -> (float, EdgeList):
     out = EdgeList()
 
     N = g.num_nodes
-    uf = DisjointSet(N)
+    uf = RemDisjointSet(N)
 
     # order the edges by weight, increasing
     # so we can remove an edge with minimum weight from S
