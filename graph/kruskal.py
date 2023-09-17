@@ -9,12 +9,12 @@ class RemDisjointSet:
     def __init__(self, N):
         self.parent = list(range(0, N))
 
-    def union(self, u, v):
+    def unite(self, u, v):
         x = self.parent[u]
         y = self.parent[v]
         while True:
             if x == y:
-                return false
+                return False
             elif x < y:
                 self.parent[v] = x
                 if v == y:
@@ -27,17 +27,6 @@ class RemDisjointSet:
                     return True
                 u = x
                 x = self.parent[u]
-
-    def find(self, u):
-        while True:
-            v = self.parent[u]
-            if v == u:
-                return u
-            w = self.parent[v]
-            if w == v:
-                return v
-            self.parent[u] = w
-            u = w
 
 class EdgeList:
     def __init__(self):
@@ -68,12 +57,9 @@ def kruskal(g: EdgeList) -> (float, EdgeList):
     g.sort_by_weight()
 
     for (u,v,w) in g.edges:
-        u_root = uf.find(u)
-        v_root = uf.find(v)
-        if u_root != v_root:
+        if uf.unite(u, v):
             mst_weight += w
             out.add(u, v, w)
-            uf.union(u_root, v_root)
 
     return mst_weight, out
 
