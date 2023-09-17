@@ -1,4 +1,5 @@
 # Boruvka's Algorithm
+# https://en.wikipedia.org/wiki/Bor%C5%AFvka%27s_algorithm
 # Find the minimum spanning tree in a graph
 # Time: O(E log V)
 # Space: O(V)
