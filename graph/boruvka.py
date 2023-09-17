@@ -38,7 +38,7 @@ class EdgeList:
         self.edges.append((u, v, weight))
         self.num_nodes = max(self.num_nodes, u+1, v+1)
 
-def boruvka(g):
+def boruvka(g: EdgeList) -> (float, EdgeList):
     """
     Finds the minimum spanning tree given an edge list.
     Returns the minimum spanning tree and its weight
