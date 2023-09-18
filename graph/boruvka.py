@@ -4,30 +4,39 @@
 # Time: O(E log V)
 # Space: O(V)
 
-class DisjointSet:
+# Disjoint Set using Rem's algorithm
+class RemDisjointSet:
     def __init__(self, N):
-        # create n singletons
         self.parent = list(range(0, N))
-        self.size = [1] * N
 
     def find(self, u):
-        # find with path splitting
         p = self.parent
-        while u != p[u]:
-            z = p[u]
-            p[u] = p[p[u]]
-            u = z
-        return u
+        while True:
+            v = p[u]
+            if v == u:
+                return u
+            w = p[v]
+            if w == v:
+                return v
+            p[u] = w
+            u = w
 
-    def union(self, u, v):
-        x = self.find(u)
-        y = self.find(v)
-        if x == y:
-            return
-        if self.size[x] < self.size[y]:
-            x,y = y,x
-        self.parent[y] = x
-        self.size[x] = self.size[x] + self.size[y]
+    def unite(self, u, v):
+        p = self.parent
+        x = p[u]
+        y = p[v]
+        while True:
+            if x == y: return False
+            elif x < y:
+                p[v] = x
+                if v == y: return True
+                v = y
+                y = p[v]
+            else:
+                p[u] = y
+                if u == x: return True
+                u = x
+                x = p[u]
 
 class EdgeList:
     def __init__(self):
@@ -40,7 +49,7 @@ class EdgeList:
 
 def boruvka(g: EdgeList) -> (float, EdgeList):
     """
-    Finds the minimum spanning tree given an edge list.
+    finds the minimum spanning tree given an edge list.
     Returns the minimum spanning tree and its weight
     """
 
@@ -48,17 +57,18 @@ def boruvka(g: EdgeList) -> (float, EdgeList):
     out = EdgeList()
 
     N = g.num_nodes
-    uf = DisjointSet(N)
+    uf = RemDisjointSet(N)
+    mst_size = 0
 
-    while N > 1:
+    while mst_size < N-1:
         min_weight_edge = [None] * g.num_nodes
         # for each edge
         for i in range(len(g.edges)):
             u, v, w = g.edges[i]
+
             u_root = uf.find(u)
             v_root = uf.find(v)
 
-            # u and v must be in different components
             if u_root == v_root: continue
 
             if not min_weight_edge[u_root] or min_weight_edge[u_root][2] > w:
@@ -70,18 +80,13 @@ def boruvka(g: EdgeList) -> (float, EdgeList):
         # for each component whose cheapest edge is not None
         # add its cheapest edge to MST
         for node in range(g.num_nodes):
-            if min_weight_edge[node]:
-                u, v, w = min_weight_edge[node]
-
-                u_root = uf.find(u)
-                v_root = uf.find(v)
-
-                if u_root == v_root: continue
-
-                mst_weight += w
-                out.add(u, v, w)
-                uf.union(u, v)
-                N -= 1
+            e = min_weight_edge[node]
+            if e:
+                u,v,w = e
+                if uf.unite(u, v):
+                    mst_weight += w
+                    mst_size += 1
+                    out.add(u, v, w)
 
     return mst_weight, out
 
