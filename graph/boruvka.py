@@ -62,6 +62,8 @@ def boruvka(g: EdgeList) -> (float, EdgeList):
 
     while mst_size < N-1:
         min_weight_edge = [None] * g.num_nodes
+        min_weight_edge_w = [None] * g.num_nodes
+
         # for each edge
         for i in range(len(g.edges)):
             u, v, w = g.edges[i]
@@ -69,24 +71,27 @@ def boruvka(g: EdgeList) -> (float, EdgeList):
             u_root = uf.find(u)
             v_root = uf.find(v)
 
+            # same component? skip
             if u_root == v_root: continue
 
-            if not min_weight_edge[u_root] or min_weight_edge[u_root][2] > w:
-                min_weight_edge[u_root] = (u, v, w)
+            if not min_weight_edge_w[u_root] or min_weight_edge_w[u_root] > w:
+                min_weight_edge[u_root] = (u, v)
+                min_weight_edge_w[u_root] = w
 
-            if not min_weight_edge[v_root] or min_weight_edge[v_root][2] > w:
-                min_weight_edge[v_root] = (u, v, w)
+            if not min_weight_edge_w[v_root] or min_weight_edge_w[v_root] > w:
+                min_weight_edge[v_root] = (u, v)
+                min_weight_edge_w[v_root] = w
 
-        # for each component whose cheapest edge is not None
-        # add its cheapest edge to MST
+        # for each component whose cheapest edge exists
+        # add the edge to MST
         for node in range(g.num_nodes):
-            e = min_weight_edge[node]
-            if e:
-                u,v,w = e
+            edge_weight = min_weight_edge_w[node]
+            if edge_weight:
+                u,v = min_weight_edge[node]
                 if uf.unite(u, v):
-                    mst_weight += w
+                    mst_weight += edge_weight
                     mst_size += 1
-                    out.add(u, v, w)
+                    out.add(u, v, edge_weight)
 
     return mst_weight, out
 
