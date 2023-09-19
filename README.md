@@ -13,6 +13,7 @@ Python 3 is required.
 - Graph
     - Kruskal
     - Boruvka
+    - Tarjan
 - Hashing
     - Jenkins
 - Matrices
