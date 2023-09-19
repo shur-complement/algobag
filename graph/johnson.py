@@ -50,6 +50,8 @@ def find_elementary_circuits(adjList):
         Ak = defaultdict(list)
         for n in component:
             Ak[n] = adjList[n]
+            blocked[n] = False
+            B[n] = []
         s = min(Ak)
         findCycles(s, s, Ak)
 
