@@ -14,6 +14,7 @@ Python 3 is required.
     - Kruskal
     - Boruvka
     - Tarjan
+    - Union Find
 - Hashing
     - Jenkins
 - Matrices
