@@ -11,9 +11,10 @@ Python 3 is required.
 # What's Inside?
 
 - Graph
-    - Kruskal
-    - Boruvka
-    - Tarjan
+    - Kruskal Minimum Spanning Tree
+    - Boruvka Minimum Spanning Tree
+    - Tarjan's Strongly Connected Components
+    - Johnson Find All Elementary Circuits
     - Union Find
 - Hashing
     - Jenkins
