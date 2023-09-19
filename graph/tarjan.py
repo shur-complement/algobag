@@ -3,48 +3,43 @@
 # Time: O(|V| + |E|)
 # Space: O(|V| * (2+5w))
 
-def tarjan(adjList, numVertices):
-    V = numVertices
-    index = [None] * numVertices
-    lowlink = [None] * numVertices
-    onStack = [False] * numVertices
+def strongly_connected_components(adjList):
     idx = 0
-    S = []
+    stack = []
+    lowlink = {}
+    index = {}
+    out = []
 
-    def strongconnect(v, out):
+    def strongconnect(v):
         nonlocal idx
-        # set the depth index for v to the smallest unused index
+        # set the depth index for this node to the smallest unused index
         index[v] = idx
         lowlink[v] = idx
         idx += 1
-        S.append(v)
-        onStack[v] = True
+        stack.append(v)
 
-        # consider successors of v
-        E = adjList[v]
-        for w in E:
-            if not index[w]:
-                # successor w has not yet been visited, recurse
-                strongconnect(w, out)
+        successors = adjList.get(v, [])
+        for w in successors:
+            if w not in lowlink:
+                # Successor has not yet been visited; recurse on it
+                strongconnect(w)
                 lowlink[v] = min(lowlink[v], lowlink[w])
-            elif onStack[w]:
-                # successor w is in stack, therefore in current SCC
+            elif w in stack:
+                # the successor is in the stack and hence in the current strongly connected component (SCC)
                 lowlink[v] = min(lowlink[v], index[w])
 
-        # If v is a root node, pop the stack and generate an SCC
+        # If `node` is a root node, pop the stack and generate an SCC
         if lowlink[v] == index[v]:
-            scc = set()
-            w = None
-            while w != v:
-                w = S.pop()
-                onStack[w] = False
-                scc.add(w)
+            scc = []
+            while True:
+                successor = stack.pop()
+                scc.append(successor)
+                if successor == v: break
             out.append(scc)
 
-    out = []
-    for i in range(V):
-        if index[i] == None:
-            strongconnect(i, out)
+    for node in adjList:
+        if node not in lowlink:
+            strongconnect(node)
     return out
 
 if __name__ == "__main__":
@@ -57,7 +52,7 @@ if __name__ == "__main__":
     g1[2] = [3,4]
     g1[3] = [0]
     g1[4] = [2]
-    res = tarjan(g1, 5)
+    res = strongly_connected_components(g1)
     print(res)
 
     g2 = defaultdict(list)
@@ -65,5 +60,5 @@ if __name__ == "__main__":
     g2[1] = [0]
     g2[2] = [1]
     g2[3] = [4]
-    res = tarjan(g2, 5)
+    res = strongly_connected_components(g2)
     print(res)
