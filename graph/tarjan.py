@@ -3,51 +3,49 @@
 # Time: O(|V| + |E|)
 # Space: O(|V| * (2+5w))
 
-class Tarjan:
-    def __init__(self, adjList, numVertices):
-        self.V = numVertices
-        self.adjList = adjList
+def tarjan(adjList, numVertices):
+    V = numVertices
+    index = [None] * numVertices
+    lowlink = [None] * numVertices
+    onStack = [False] * numVertices
+    idx = 0
+    S = []
 
-    def scc(self):
-        self.index = [None] * (self.V)
-        self.lowlink = [None] * (self.V)
-        self.onStack = [False] * (self.V)
-        self.idx = 0
-        self.S = []
-        out = []
-        for i in range(self.V):
-            if self.index[i] == None:
-                self._strongconnect(i, out)
-        return out
-
-    def _strongconnect(self, v, out):
+    def strongconnect(v, out):
+        nonlocal idx
         # set the depth index for v to the smallest unused index
-        self.index[v] = self.idx
-        self.lowlink[v] = self.idx
-        self.idx += 1
-        self.S.append(v)
-        self.onStack[v] = True
+        index[v] = idx
+        lowlink[v] = idx
+        idx += 1
+        S.append(v)
+        onStack[v] = True
 
         # consider successors of v
-        E = self.adjList[v]
+        E = adjList[v]
         for w in E:
-            if not self.index[w]:
+            if not index[w]:
                 # successor w has not yet been visited, recurse
-                self._strongconnect(w, out)
-                self.lowlink[v] = min(self.lowlink[v], self.lowlink[w])
-            elif self.onStack[w]:
+                strongconnect(w, out)
+                lowlink[v] = min(lowlink[v], lowlink[w])
+            elif onStack[w]:
                 # successor w is in stack, therefore in current SCC
-                self.lowlink[v] = min(self.lowlink[v], self.index[w])
+                lowlink[v] = min(lowlink[v], index[w])
 
         # If v is a root node, pop the stack and generate an SCC
-        if self.lowlink[v] == self.index[v]:
+        if lowlink[v] == index[v]:
             scc = set()
             w = None
             while w != v:
-                w = self.S.pop()
-                self.onStack[w] = False
+                w = S.pop()
+                onStack[w] = False
                 scc.add(w)
             out.append(scc)
+
+    out = []
+    for i in range(V):
+        if index[i] == None:
+            strongconnect(i, out)
+    return out
 
 if __name__ == "__main__":
 
@@ -59,7 +57,7 @@ if __name__ == "__main__":
     g1[2] = [3,4]
     g1[3] = [0]
     g1[4] = [2]
-    res = Tarjan(g1, 5).scc()
+    res = tarjan(g1, 5)
     print(res)
 
     g2 = defaultdict(list)
@@ -67,5 +65,5 @@ if __name__ == "__main__":
     g2[1] = [0]
     g2[2] = [1]
     g2[3] = [4]
-    res = Tarjan(g2, 5).scc()
+    res = tarjan(g2, 5)
     print(res)
